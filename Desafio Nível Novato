@@ -1,0 +1,85 @@
+#include <stdio.h>
+
+// Estrutura para armazenar informações sobre as cidades
+typedef struct {
+    char estado[50];
+    char codigo[10];
+    char nome[50];
+    int populacao;
+    float area;
+    float pib;
+    int pontos_turisticos;
+    float densidade_populacional; // Calculado
+    float pib_per_capita;         // Calculado
+} Carta;
+
+// Função para calcular valores derivados da estrutura
+void calcular_valores(Carta *c) {
+    c->densidade_populacional = c->populacao / c->area;
+    c->pib_per_capita = c->pib / c->populacao;
+}
+
+// Função para entrada de dados do usuário
+void cadastrar_carta(Carta *c) {
+    printf("\nCadastro de Carta:\n");
+    printf("Estado: ");
+    scanf("%s", c->estado);
+    printf("Codigo: ");
+    scanf("%s", c->codigo);
+    printf("Nome: ");
+    scanf("%s", c->nome);
+    printf("Populacao: ");
+    scanf("%d", &c->populacao);
+    printf("Area (km²): ");
+    scanf("%f", &c->area);
+    printf("PIB (R$): ");
+    scanf("%f", &c->pib);
+    printf("Numero de pontos turisticos: ");
+    scanf("%d", &c->pontos_turisticos);
+    
+    calcular_valores(c);
+}
+
+// Função para exibição dos dados de uma carta
+void exibir_carta(Carta c) {
+    printf("\nCarta: %s (%s)\n", c.nome, c.estado);
+    printf("Codigo: %s\n", c.codigo);
+    printf("Populacao: %d\n", c.populacao);
+    printf("Area: %.2f km²\n", c.area);
+    printf("PIB: R$ %.2f\n", c.pib);
+    printf("Pontos turisticos: %d\n", c.pontos_turisticos);
+    printf("Densidade populacional: %.2f hab/km²\n", c.densidade_populacional);
+    printf("PIB per capita: R$ %.2f\n", c.pib_per_capita);
+}
+
+// Função para comparar cartas com base na população
+void comparar_cartas(Carta c1, Carta c2) {
+    printf("\nComparacao de cartas (Atributo: Populacao):\n");
+    printf("%s: %d habitantes\n", c1.nome, c1.populacao);
+    printf("%s: %d habitantes\n", c2.nome, c2.populacao);
+    
+    if (c1.populacao > c2.populacao) {
+        printf("Resultado: %s venceu!\n", c1.nome);
+    } else if (c1.populacao < c2.populacao) {
+        printf("Resultado: %s venceu!\n", c2.nome);
+    } else {
+        printf("Resultado: Empate!\n");
+    }
+}
+
+int main() {
+    Carta carta1, carta2;
+    
+    // Cadastro das cartas
+    cadastrar_carta(&carta1);
+    cadastrar_carta(&carta2);
+    
+    // Exibir os dados cadastrados
+    exibir_carta(carta1);
+    exibir_carta(carta2);
+    
+    // Comparação entre cartas
+    comparar_cartas(carta1, carta2);
+    
+    return 0;
+}
